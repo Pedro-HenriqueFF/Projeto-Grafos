@@ -3,25 +3,25 @@
 2. Representação do Grafo
 
 3. Operações Básicas
-a) NovoGrafo()
-b) Grafo(G)
-c) EVertice(G, v)
-d) AddAresta(G, vi, vj , ω)
-e) RemoveAresta(G, vi, vj , ω)
-f) ExisteAresta(G, vi, vj , ω): Verifica se existe uma aresta em G entre os vértices vi e vj com peso ω.
-g) MudaPeso(G, vi, vj , ω, ω′)
-h) ImprimeGrafo(G)
-i) RemoveGrafo(G)
-j) RecuperaPeso(G, vi, vj )
+a) NovoGrafo()                    OK
+b) Grafo(G)                       OK
+c) EVertice(G, v)                 OK
+d) AddAresta(G, vi, vj , ω)       OK
+e) RemoveAresta(G, vi, vj , ω)    OK
+f) ExisteAresta(G, vi, vj , ω)    OK
+g) MudaPeso(G, vi, vj , ω, ω′)    OK
+h) ImprimeGrafo(G)                OK
+i) RemoveGrafo(G)                 OK
+j) RecuperaPeso(G, vi, vj)
 k) GrafoSimples(G)
 l) EArvore(G)
 m) EBipartido(G)
 n) Complemento(G)
-o) EAdj(G, vi, vj )
+o) EAdj(G, vi, vj)
 p) Adjacencia(G, v)
 q) Incidencia(G, v)
-r) MatrizAdj(G)
-s) ImprimeMatrizAdj(G)
+r) MatrizAdj(G)                   OK
+s) ImprimeMatrizAdj(G)            OK
 t) Conexo(G)
 
 4. Percursos
@@ -29,6 +29,6 @@ a) DFS(G, vi)
 b) BFS(G, vi)
 
 5. Caminhos mínimos
-a) CaminhoMinimo(G, vi, vj )
+a) CaminhoMinimo(G, vi, vj)
 b) CustoMinimo(G, v)
 c) CaminhoMinimo(G, v)
