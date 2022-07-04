@@ -13,13 +13,13 @@ g) MudaPeso(G, vi, vj , ω, ω′)    OK
 h) ImprimeGrafo(G)                OK
 i) RemoveGrafo(G)                 OK
 j) RecuperaPeso(G, vi, vj)
-k) GrafoSimples(G)
+k) GrafoSimples(G)                OK
 l) EArvore(G)
 m) EBipartido(G)
-n) Complemento(G)
-o) EAdj(G, vi, vj)
-p) Adjacencia(G, v)
-q) Incidencia(G, v)
+n) Complemento(G)                 OK
+o) EAdj(G, vi, vj)                OK
+p) Adjacencia(G, v)               OK
+q) Incidencia(G, v)               OK
 r) MatrizAdj(G)                   OK
 s) ImprimeMatrizAdj(G)            OK
 t) Conexo(G)

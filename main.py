@@ -131,19 +131,72 @@ class Grafo(object):
     
     #def RecuperaPeso(self, indice_saida, indice_chegada):
 
-    #def GrafoSimples(self):
+    def GrafoSimples(self):
+        if self.existe():
+            for v in self:
+                vetor = np.zeros((self.vertice), dtype=np.int)
+                for w in v.get_coneccoes():
+                    if v.indice == w.indice:
+                        print('O Grafo {} não é simples'.format(self.nome))
+                        return 0
+                    vetor[w.indice-1] += 1
+                    if vetor[w.indice-1] > 1:
+                        print('O Grafo {} não é simples'.format(self.nome))
+                        return 0
+            print('O Grafo {} é simples'.format(self.nome))
 
     #def EArvore(self):
 
     #def EBipartido(self):
 
-    #def Complemento(self):
+    def Complemento(self, grafo):
+        if self.existe():
+            for v in self:
+                vetor = np.zeros((self.vertice), dtype=np.int)
+                for w in v.get_coneccoes():
+                    vetor[w.indice-1] = 1
+                print('{}'.format(self.vertice))
+                for j in range(self.vertice):
+                    if vetor[j] == 0:
+                        print('{} {}'.format(v.indice, j+1))
+                        grafo.AddAresta(v.indice, j+1, 1)
+            return grafo
 
-    #def EAdj(self, indice_saida, indice_chegada):
+    def EAdj(self, indice_saida, indice_chegada):
+        if self.existe():
+            if indice_saida not in self.vertices or indice_chegada not in self.vertices:
+                print('Um ou mais vértices não existem!')
+                return 0
+            for w in self.vertices[indice_saida].get_coneccoes():
+                if w.indice == indice_chegada:
+                    print('A aresta V{}V{} existe'.format(indice_saida, indice_chegada))
+                    return 0
+            print('A aresta V{}V{} não existe'.format(indice_saida, indice_chegada))
 
-    #def Adjacencia(self, indice):
+    def Adjacencia(self, indice):
+        if self.existe():
+            if indice not in self.vertices:
+                print('Vértice não existe!')
+                return 0
+            print('Vértice {}'.format(indice), end="")
+            for w in self.vertices[indice].get_coneccoes():
+                print(' -Peso {}-> Vértice {}'.format(self.vertices[indice].get_peso(self.get_vertice(w.indice)), w.indice), end="")
+            print('')
 
-    #def Incidencia(self, indice):
+    def Incidencia(self, indice):
+        if self.existe():
+            if indice not in self.vertices:
+                print('Vértice não existe!')
+                return 0
+            print('Arestas incidentes ao vértice {}: '.format(indice))
+            i = 0
+            for w in self.vertices[indice].get_coneccoes():
+                if i == 0:
+                    print('V{}V{}'.format(indice, w.indice), end="")
+                else:
+                    print(' ,V{}V{}'.format(indice, w.indice), end="")
+                i = 1
+            print('')
 
     def MatrizAdj(self):
         if self.existe():
@@ -167,7 +220,10 @@ class Grafo(object):
     def del_grafo(self):
         if self.existe():
             del self.nome
+            del self.vertice
+            del self.aresta
             del self.vertices
+            del self.matrizVertices
 
     def get_vertices(self):
         if self.existe():
@@ -183,6 +239,12 @@ def NovoGrafo():
 
 def RemoveGrafo(g):
     g.del_grafo()
+
+def Complemento(g):
+    gc = NovoGrafo()
+    for i in range(2, (g.vertice)+1):
+        gc.AddVertice(Vertice(i))
+    return g.Complemento(gc)
 
 if __name__ == "__main__":
     g = NovoGrafo()
@@ -206,7 +268,22 @@ if __name__ == "__main__":
     g.MudaPeso(5, 1, 1, 4)
     g.Grafo()
     g.ImprimeGrafo()
+    g.GrafoSimples()
+    gc = Complemento(g)
+    gc.Grafo()
+    gc.ImprimeGrafo()
+    #g.AddAresta(1, 1, 3)
+    g.GrafoSimples()
+    g.EAdj(1, 2)
+    g.EAdj(1, 3)
+    g.Adjacencia(3)
+    g.Adjacencia(4)
+    g.Incidencia(2)
+    g.Incidencia(1)
     g.MatrizAdj()
     g.ImprimeMatrizAdj()
+    print('')
+    gc.MatrizAdj()
+    gc.ImprimeMatrizAdj()
     #RemoveGrafo(g)
     #g.Grafo()
