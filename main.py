@@ -1,6 +1,7 @@
 from asyncio import gather
 from time import sleep
 import numpy as np
+import sys
 
 #Classe que representa um vértice na lista de adjacência
 class Vertice(object):
@@ -51,8 +52,8 @@ class Grafo(object):
     #Ele guarda o seu nome, quantos vértices e quantas arestas o grafo possui,
     #e a lista e a matriz de adjacência do grafo
     #Ele adiciona 1 vértice no grafo ao ser criado
-    def __init__(self):
-        self.nome = 'G'
+    def __init__(self, nome_Grafo):
+        self.nome = nome_Grafo
         self.vertice = 0
         self.aresta = 0
         self.vertices = {}
@@ -274,8 +275,8 @@ class Grafo(object):
             return iter(self.vertices.values())
 
 #Função que cria um novo grafo com apenas um vértice
-def NovoGrafo():
-    g = Grafo()
+def NovoGrafo(nome_Grafo):
+    g = Grafo(nome_Grafo)
     return g
 
 #Função que remove o grafo da memória
@@ -290,12 +291,39 @@ def Complemento(g):
         gc.AddVertice(Vertice(i))
     return g.Complemento(gc)
 
+#Função para ler o arquivo de texto com o grafo
+#Gera o grafo em forma de lista de adjacência
+def LerArquivo(nome):
+    arquivo = open("{}.txt".format(nome), "r")
+    linha = arquivo.readline()
+    parametros = linha.split()
+    nome_Grafo = parametros[0]
+    n_vertices = int(parametros[1])
+    n_arestas = int(parametros[2])
+    g = NovoGrafo(nome_Grafo)
+    for i in range(2, n_vertices+1):
+        g.AddVertice(Vertice(i))
+    linha = arquivo.readline()
+    linha = arquivo.readline()
+    while linha:
+        valores = linha.split()
+        g.AddAresta(int(valores[0]), int(valores[1]), int(valores[2]))
+        linha = arquivo.readline()
+    arquivo.close()
+    return g
+
+#Função para ler o arquivo como entrada principal do código
+def EntradaPricipal():
+    nome = sys.argv[1]
+    return LerArquivo(nome)
+
 if __name__ == "__main__":
-    g = NovoGrafo()
+    h = EntradaPricipal()
+    g = NovoGrafo('G')
     for i in range(2, 7):
         g.AddVertice(Vertice(i))
-    g.EVertice(6)
-    g.EVertice(7)
+    #g.EVertice(6)
+    #g.EVertice(7)
     g.AddAresta(1, 2, 5)
     g.AddAresta(1, 6, 2)
     g.AddAresta(2, 3, 4)
@@ -305,30 +333,33 @@ if __name__ == "__main__":
     g.AddAresta(5, 1, 1)
     g.AddAresta(6, 5, 8)
     g.AddAresta(6, 3, 1)
-    g.RemoveAresta(7, 3, 5)
-    g.RemoveAresta(6, 3, 5)
-    g.RemoveAresta(6, 3, 1)
-    g.ExisteAresta(5, 1, 1)
-    g.MudaPeso(5, 1, 1, 4)
-    g.Grafo()
+    #g.RemoveAresta(7, 3, 5)
+    #g.RemoveAresta(6, 3, 5)
+    #g.RemoveAresta(6, 3, 1)
+    #g.ExisteAresta(5, 1, 1)
+    #g.MudaPeso(5, 1, 1, 4)
+    #g.Grafo()
+    #h.Grafo()
     g.ImprimeGrafo()
-    g.GrafoSimples()
-    gc = Complemento(g)
-    gc.Grafo()
-    gc.ImprimeGrafo()
-    #g.AddAresta(1, 1, 3)
-    g.GrafoSimples()
-    g.EAdj(1, 2)
-    g.EAdj(1, 3)
-    g.Adjacencia(3)
-    g.Adjacencia(4)
-    g.Incidencia(2)
-    g.Incidencia(1)
-    g.MatrizAdj()
-    g.ImprimeMatrizAdj()
     print('')
-    gc.MatrizAdj()
-    gc.ImprimeMatrizAdj()
+    h.ImprimeGrafo()
+    #g.GrafoSimples()
+    #gc = Complemento(g)
+    #gc.Grafo()
+    #gc.ImprimeGrafo()
+    #g.AddAresta(1, 1, 3)
+    #g.GrafoSimples()
+    #g.EAdj(1, 2)
+    #g.EAdj(1, 3)
+    #g.Adjacencia(3)
+    #g.Adjacencia(4)
+    #g.Incidencia(2)
+    #g.Incidencia(1)
+    #g.MatrizAdj()
+    #g.ImprimeMatrizAdj()
+    #print('')
+    #gc.MatrizAdj()
+    #gc.ImprimeMatrizAdj()
     #RemoveGrafo(g)
     #g.Grafo()
     
@@ -339,23 +370,21 @@ if __name__ == "__main__":
 
 def DSF(G, vi):
 
-    saida = {}  #Vai associar cada vertice ao vertice que o alconçou pela primeira vez
+    saida = {}  #Vai associar cada vertice ao vertice que o alcançou pela primeira vez
+    cor = []    #Cor cinza para visitados, bracos não visitados e preto para os percorridos
+    custo = []  #Custo é o custo para chegar aquele vertice
 
-    #Cor cinza para visitados, bracos não visitados e preto para os percorridos
-    #Custo é o custo para chegar aquele vertice
+    for vertice in G:
+        cor[vertice.indice] = 'branco'
+        custo[vertice.indice] = float('inf')
 
-    for vertice in G.vertices():
-        G.vertices[vertice]['cor'] = 'branco'
-        G.vertices[vertice]['custo'] = float('inf')
-
-    G.vertices[vi]['cor'] = 'cinza'
-    G.nodes[vi]['custo'] = 0
+    cor[vi.indice] = 'cinza'
+    custo[vi.indice] = 0
 
     #Iniciando uma pilha (estrtura usado para busca em profundidade)
-    pilha = Pilha()
+    pilha = []
 
     #insere vi (raiz) na fila
-
     pilha.push(vi)
 
     while not pilha.isEmpty():
@@ -363,15 +392,15 @@ def DSF(G, vi):
         #Pegar o ultimo elemento empilhado
         u = pilha.pop()
 
-        for vertice in G.vizinhos(u):
-            if (G.vertices[vertice]['cor'] == 'branco'):
-                G.vertices[vertice]['custo'] = G.vertices[u]['custo'] + 1
-                saida[vertice] = u
-                G.vertices[vertice]['cor'] = 'cinza'
+        for vertice in u.get_coneccoes():
+            if (cor[vertice.indice] == 'branco'):
+                custo[vertice.indice] = custo[u.indice] + u.get_peso(G.get_vertice(vertice.indice))
+                saida[vertice.indice] = u
+                cor[vertice.indice] = 'cinza'
                 pilha.push(vertice)
         
         #Depois que o vertice 'u' é percorrido, muda para a cor 'preto'
-        G.vertices[u]['cor'] = 'preto'
+        cor[u.indice] = 'preto'
 
     return saida
 
@@ -379,35 +408,33 @@ def DSF(G, vi):
 def BSF(G, vi):
 
     saida = {}  #Vai associar cada vertice ao vertice que o alconçou pela primeira vez
+    cor = []    #Cor cinza para visitados, bracos não visitados e preto para os percorridos
+    custo = []  #Custo é o custo para chegar aquele vertice
 
-    #Cor cinza para visitados, bracos não visitados e preto para os percorridos
-    #Custo é o custo para chegar aquele vertice
+    for vertice in G:
+        cor[vertice.indice] = 'branco'
+        custo[vertice.indice] = float('inf')
 
-    for vertice in G.vertices():
-        G.vertices[vertice]['cor'] = 'branco'
-        G.vertices[vertice]['custo'] = float('inf')
-
-    G.vertices[vi]['cor'] = 'cinza'
-    G.nodes[vi]['custo'] = 0
+    cor[vi.indice] = 'cinza'
+    custo[vi.indice] = 0
 
     #Iniciando uma fila (estrtura usado para busca em largura), o que difere do código de DSF
-    fila = deque()
+    fila = []
 
     #insere vi (raiz) na fila
-
     fila.append(vi)
 
     while (len(fila) > 0):
         u = fila.popleft()
 
-        for vertice in G.vizinhos(u):
-            if (G.vertices[vertice]['cor'] == 'branco'):
-                G.vertices[vertice]['custo'] = G.vertices[u]['custo'] + 1
-                saida[vertice] = u
-                G.vertices[vertice]['cor'] = 'cinza'
+        for vertice in u.get_coneccoes():
+            if (cor[vertice.indice] == 'branco'):
+                custo[vertice.indice] = custo[u.indice] + u.get_peso(G.get_vertice(vertice.indice))
+                saida[vertice.indice] = u
+                cor[vertice.indice] = 'cinza'
                 fila.append(vertice)
         
         #Depois que o u é percorrido, muda para a cor 'preto'
-        G.vertices[u]['cor'] = 'preto'
+        cor[u.indice] = 'preto'
 
     return saida
