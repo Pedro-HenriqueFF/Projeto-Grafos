@@ -287,3 +287,83 @@ if __name__ == "__main__":
     gc.ImprimeMatrizAdj()
     #RemoveGrafo(g)
     #g.Grafo()
+    
+   
+
+#Funções de Percursos
+
+
+def DSF(G, vi):
+
+    saida = {}  #Vai associar cada vertice ao vertice que o alconçou pela primeira vez
+
+    #Cor cinza para visitados, bracos não visitados e preto para os percorridos
+    #Custo é o custo para chegar aquele vertice
+
+    for vertice in G.vertices():
+        G.vertices[vertice]['cor'] = 'branco'
+        G.vertices[vertice]['custo'] = float('inf')
+
+    G.vertices[vi]['cor'] = 'cinza'
+    G.nodes[vi]['custo'] = 0
+
+    #Iniciando uma pilha (estrtura usado para busca em profundidade)
+    pilha = Pilha()
+
+    #insere vi (raiz) na fila
+
+    pilha.push(vi)
+
+    while not pilha.isEmpty():
+
+        #Pegar o ultimo elemento empilhado
+        u = pilha.pop()
+
+        for vertice in G.vizinhos(u):
+            if (G.vertices[vertice]['cor'] == 'branco'):
+                G.vertices[vertice]['custo'] = G.vertices[u]['custo'] + 1
+                saida[vertice] = u
+                G.vertices[vertice]['cor'] = 'cinza'
+                pilha.push(vertice)
+        
+        #Depois que o vertice 'u' é percorrido, muda para a cor 'preto'
+        G.vertices[u]['cor'] = 'preto'
+
+    return saida
+
+
+def BSF(G, vi):
+
+    saida = {}  #Vai associar cada vertice ao vertice que o alconçou pela primeira vez
+
+    #Cor cinza para visitados, bracos não visitados e preto para os percorridos
+    #Custo é o custo para chegar aquele vertice
+
+    for vertice in G.vertices():
+        G.vertices[vertice]['cor'] = 'branco'
+        G.vertices[vertice]['custo'] = float('inf')
+
+    G.vertices[vi]['cor'] = 'cinza'
+    G.nodes[vi]['custo'] = 0
+
+    #Iniciando uma fila (estrtura usado para busca em largura), o que difere do código de DSF
+    fila = deque()
+
+    #insere vi (raiz) na fila
+
+    fila.append(vi)
+
+    while (len(fila) > 0):
+        u = fila.popleft()
+
+        for vertice in G.vizinhos(u):
+            if (G.vertices[vertice]['cor'] == 'branco'):
+                G.vertices[vertice]['custo'] = G.vertices[u]['custo'] + 1
+                saida[vertice] = u
+                G.vertices[vertice]['cor'] = 'cinza'
+                fila.append(vertice)
+        
+        #Depois que o u é percorrido, muda para a cor 'preto'
+        G.vertices[u]['cor'] = 'preto'
+
+    return saida
