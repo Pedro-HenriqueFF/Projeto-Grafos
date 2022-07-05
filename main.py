@@ -2,20 +2,28 @@ from asyncio import gather
 from time import sleep
 import numpy as np
 
+#Classe que representa um vértice na lista de adjacência
 class Vertice(object):
+
+    #Ele guarda o seu índice, quantos vértices são adjacentes a ele,
+    #e um dicionário que guarda os pesos das arestas incidentes
     def __init__(self, valor):
         self.indice = valor
         self.adjacentes = 0
         self.vizinhos = {}
 
+    #Função que adiciona um vizinho ao vértice
+    #Ela insere o peso da aresta na posição de índice "vizinho" do dicionário
     def add_vizinho(self, vizinho, peso):
         self.vizinhos[vizinho] = peso
         self.adjacentes += 1
 
+    #Função que remove um vizinho do vértice
     def remove_vizinho(self, vizinho):
         del self.vizinhos[vizinho]
         self.adjacentes -= 1
 
+    #Função que imprime a lista de adjacência do vértice
     def __str__(self):
         text = []
         for x in self.vizinhos:
@@ -24,16 +32,25 @@ class Vertice(object):
         text = text[:-1]
         return ''.join(text)
 
+    #Função que retorna o dicionário contendo os vizinhos
+    #do vértice e o peso das arestas até eles
     def get_vizinhos(self):
         return self.vizinhos
 
+    #Função que retorna os outros vértices que estão conectados ao vértice
     def get_coneccoes(self):
         return self.vizinhos.keys()
 
+    #Função que retorna o peso de uma aresta até outro vértice
     def get_peso(self, vizinho):
         return self.vizinhos[vizinho]
 
+#Classe que representa um grafo
 class Grafo(object):
+
+    #Ele guarda o seu nome, quantos vértices e quantas arestas o grafo possui,
+    #e a lista e a matriz de adjacência do grafo
+    #Ele adiciona 1 vértice no grafo ao ser criado
     def __init__(self):
         self.nome = 'G'
         self.vertice = 0
@@ -42,6 +59,7 @@ class Grafo(object):
         self.matrizVertices = []
         self.AddVertice(Vertice(1))
 
+    #Função que verifica se o grafo existe
     def existe(self):
         try:
             self.nome
@@ -49,11 +67,13 @@ class Grafo(object):
         except:
             print('Grafo não existe')
 
+    #Função que adiciona um vértice com índice "vertice" ao grafo
     def AddVertice(self, vertice):
         if self.existe():
             self.vertices[vertice.indice] = vertice
             self.vertice += 1
 
+    #Função que retorna um vértice com índice "indice" do grafo
     def get_vertice(self, indice):
         if self.existe():
             try:
@@ -61,6 +81,7 @@ class Grafo(object):
             except KeyError:
                 return None
 
+    #Função que imprime a lista de adjacência do grafo
     def Grafo(self):
         if self.existe():
             for v in self:
@@ -69,6 +90,7 @@ class Grafo(object):
                     print(' -Peso {}-> Vértice {}'.format(v.get_peso(self.get_vertice(w.indice)), w.indice), end="")
                 print('')
 
+    #Função que retorna se o vértice de índice "indice" pertence ao Grafo
     def EVertice(self, indice):
         if self.existe():
             if self.get_vertice(indice) is not None:
@@ -80,6 +102,8 @@ class Grafo(object):
         if self.existe():
             return indice in self.vertices
 
+    #Função que adiciona uma aresta de peso "peso" saindo do vértice de índice
+    #"indice_saida" e chegando ao vértice de índice "indice_chegada"
     def AddAresta(self, indice_saida, indice_chegada, peso):
         if self.existe():
             if indice_saida not in self.vertices or indice_chegada not in self.vertices:
@@ -88,6 +112,9 @@ class Grafo(object):
             self.vertices[indice_saida].add_vizinho(self.vertices[indice_chegada], peso)
             self.aresta += 1
     
+    #Função que remove uma aresta de peso "peso" saindo do vértice de índice
+    #"indice_saida" e chegando ao vértice de índice "indice_chegada",
+    #se esta aresta existir
     def RemoveAresta(self, indice_saida, indice_chegada, peso):
         if self.existe():
             if indice_saida not in self.vertices or indice_chegada not in self.vertices:
@@ -100,6 +127,8 @@ class Grafo(object):
             self.aresta -= 1
             print('Aresta removida com sucesso')
     
+    #Função que retorna se existe uma aresta de peso "peso" saindo do vértice de
+    #índice "indice_saida" e chegando ao vértice de índice "indice_chegada",
     def ExisteAresta(self, indice_saida, indice_chegada, peso):
         if self.existe():
             if indice_saida not in self.vertices or indice_chegada not in self.vertices:
@@ -110,6 +139,8 @@ class Grafo(object):
                 return 0
             print('Existe aresta com peso {} do vértice {} para o vértice {}'.format(peso, indice_saida, indice_chegada))
 
+    #Função que muda o peso de uma aresta de peso "peso" para "novo_peso", saindo do vértice de índice
+    #"indice_saida" e chegando ao vértice de índice "indice_chegada", se esta aresta existir
     def MudaPeso(self, indice_saida, indice_chegada, peso, novo_peso):
         if self.existe():
             if indice_saida not in self.vertices or indice_chegada not in self.vertices:
@@ -121,6 +152,7 @@ class Grafo(object):
             self.vertices[indice_saida].add_vizinho(self.vertices[indice_chegada], novo_peso)
             print('Peso mudado com sucesso')
 
+    #Função que imprime todos os vértices e todas as arestas do grafo
     def ImprimeGrafo(self):
         if self.existe():
             print('Grafo {}:'.format(self.nome))
@@ -131,6 +163,7 @@ class Grafo(object):
     
     #def RecuperaPeso(self, indice_saida, indice_chegada):
 
+    #Função que retorna se o grafo é simples ou não
     def GrafoSimples(self):
         if self.existe():
             for v in self:
@@ -149,19 +182,20 @@ class Grafo(object):
 
     #def EBipartido(self):
 
+    #Função que retorna o complemento do grafo 
     def Complemento(self, grafo):
         if self.existe():
             for v in self:
                 vetor = np.zeros((self.vertice), dtype=np.int)
                 for w in v.get_coneccoes():
                     vetor[w.indice-1] = 1
-                print('{}'.format(self.vertice))
                 for j in range(self.vertice):
                     if vetor[j] == 0:
-                        print('{} {}'.format(v.indice, j+1))
                         grafo.AddAresta(v.indice, j+1, 1)
             return grafo
 
+    #Função que retorna se existe uma aresta saindo do vértice de
+    #índice "indice_saida" e chegando ao vértice de índice "indice_chegada"
     def EAdj(self, indice_saida, indice_chegada):
         if self.existe():
             if indice_saida not in self.vertices or indice_chegada not in self.vertices:
@@ -173,6 +207,7 @@ class Grafo(object):
                     return 0
             print('A aresta V{}V{} não existe'.format(indice_saida, indice_chegada))
 
+    #Função que retorna a lista de adjacência do vértice de índice "indice"
     def Adjacencia(self, indice):
         if self.existe():
             if indice not in self.vertices:
@@ -183,6 +218,7 @@ class Grafo(object):
                 print(' -Peso {}-> Vértice {}'.format(self.vertices[indice].get_peso(self.get_vertice(w.indice)), w.indice), end="")
             print('')
 
+    #Função que retorna as arestas incidentes as vértice de índice "indice"
     def Incidencia(self, indice):
         if self.existe():
             if indice not in self.vertices:
@@ -198,6 +234,7 @@ class Grafo(object):
                 i = 1
             print('')
 
+    #Função que constrói a matriz de adjacência do grafo
     def MatrizAdj(self):
         if self.existe():
             matriz = np.zeros((self.vertice, self.vertice), dtype=np.int)
@@ -206,6 +243,7 @@ class Grafo(object):
                     matriz[v.indice-1][w.indice-1] = v.get_peso(self.get_vertice(w.indice))
             self.matrizVertices = matriz
 
+    #Função que imprime a matriz de adjacência do grafo
     def ImprimeMatrizAdj(self):
         for i in range(self.vertice):
             for j in range(self.vertice):
@@ -217,6 +255,7 @@ class Grafo(object):
 
     #def Conexo(self):
 
+    #Função que deleta as informações do grafo
     def del_grafo(self):
         if self.existe():
             del self.nome
@@ -225,6 +264,7 @@ class Grafo(object):
             del self.vertices
             del self.matrizVertices
 
+    #Função que retorna os vértices existentes no grafo
     def get_vertices(self):
         if self.existe():
             return self.vertices.keys()
@@ -233,13 +273,17 @@ class Grafo(object):
         if self.existe():
             return iter(self.vertices.values())
 
+#Função que cria um novo grafo com apenas um vértice
 def NovoGrafo():
     g = Grafo()
     return g
 
+#Função que remove o grafo da memória
 def RemoveGrafo(g):
     g.del_grafo()
 
+#Função que cria um novo grafo vazio e 
+#transforma ele no complemento do grafo "g"
 def Complemento(g):
     gc = NovoGrafo()
     for i in range(2, (g.vertice)+1):
