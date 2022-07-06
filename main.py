@@ -459,10 +459,10 @@ def CaminhoMinimoIJ(G, vi, vj):
 
     distancia, pred = Bellmanford(G, vi)
 
-    inicio = vi
-    fim = vj
+    inicio = vi.indice
+    fim = vj.indice
     
-    print("Caminho de ", vi, " a ", vj)
+    print("Caminho de ", vi.indice, " a ", vj.indice)
 
     while inicio != fim:
         pilha = Stack()
@@ -476,7 +476,7 @@ def CustoMinimo(G, v):
     
     distancia, pred = Bellmanford(G, v)
 
-    print("Custos em relação a ", v ,": ", distancia)
+    print("Custos em relação a ", v.indice ,": ", distancia)
 
 
 def CaminhoMinimo(G, v):
@@ -485,10 +485,10 @@ def CaminhoMinimo(G, v):
 
     for u in range(G.vertice):
 
-        inicio = v
-        fim = u
+        inicio = v.indice
+        fim = u.indice
 
-        print("Caminho de ", v, " a ", u)
+        print("Caminho de ", v.indice, " a ", u.indice)
         while inicio != fim:
             pilha = Stack()
             pilha.push(pred[fim])
