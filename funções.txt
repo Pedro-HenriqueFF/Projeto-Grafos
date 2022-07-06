@@ -24,11 +24,11 @@ r) MatrizAdj(G)                   OK
 s) ImprimeMatrizAdj(G)            OK
 t) Conexo(G)
 
-4. Percursos
+4. Percursos                      OK
 a) DFS(G, vi)
 b) BFS(G, vi)
 
-5. Caminhos mínimos
-a) CaminhoMinimo(G, vi, vj)
+5. Caminhos mínimos               OK
+a) CaminhoMinimo(G, vi, vj)       nomeado como CaminhoMinimoIJ
 b) CustoMinimo(G, v)
 c) CaminhoMinimo(G, v)
