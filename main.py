@@ -367,6 +367,26 @@ if __name__ == "__main__":
 
 #Funções de Percursos
 
+#criando uma classe pilha
+class Stack:
+     def __init__(self):
+         self.items = []
+
+     def isEmpty(self):
+         return self.items == []
+
+     def push(self, item):
+         self.items.append(item)
+
+     def pop(self):
+         return self.items.pop()
+
+     def peek(self):
+         return self.items[len(self.items)-1]
+
+     def size(self):
+         return len(self.items)
+
 
 def DSF(G, vi):
 
@@ -382,7 +402,7 @@ def DSF(G, vi):
     custo[vi.indice] = 0
 
     #Iniciando uma pilha (estrtura usado para busca em profundidade)
-    pilha = []
+    pilha = Stack()
 
     #insere vi (raiz) na fila
     pilha.push(vi)
@@ -407,7 +427,7 @@ def DSF(G, vi):
 
 def BSF(G, vi):
 
-    saida = {}  #Vai associar cada vertice ao vertice que o alconçou pela primeira vez
+    saida = {}  #Vai associar cada vertice ao vertice que o alcançou pela primeira vez
     cor = []    #Cor cinza para visitados, bracos não visitados e preto para os percorridos
     custo = []  #Custo é o custo para chegar aquele vertice
 
@@ -441,46 +461,87 @@ def BSF(G, vi):
 
 #Caminhos Minimos
 
-def escolherMinimo():    #Função usada para escolher o vertice vj que pertence a V - V' que minimiza o c(j)
+def Bellmanford(G, vi):
 
-def CaminhoMinimo(G, vi, vj):
+    #Função Relax - Atualizar a distancia e o prodecedor dos vertices alcançados por vi 
+    def relax(u, v):
+        if ((distancia[u.indice] != infinito) and ((distancia[u.indice] + u.get_peso(G.get_vertice(vertice.indice))) < distancia[v.indice])):
+            distancia[v.indice] = distancia[u.indice] + u.get_peso(G.get_vertice(vertice.indice))
+            pred[v.indice] = u.indice
 
-    listaV = list()       #lista de vert V - V'
-    lista = list()         #Lista de vertices V'
+    def verificaCiclosNetagtivos(u, v):
+        if ((distancia[u.indice] != infinito) and ((distancia[u.indice] + u.get_peso(G.get_vertice(vertice.indice))) < distancia[v.indice])):
+            return 1
+
+
     infinito = float('inf')
     distancia = []     #Distancia de vi a cada vertice
     pred = []   #predecessor de cada vértice
+    caminho = lista
 
+    #Inicializando as distancias
 
-    listaV = G.vertices()
-    listaV.remove(vi)
-    lista.append(vi)
+    for vertice in G:
+        distancia[vertice.indice] = infinito
+        pred[vertice.indice] = None
 
-    for v in range(G.vertice()):
-        distancia[v].append(RecuperaPeso(G, vi, v))
-        pred[v].append(None)
+    distancia[vi.indice] = 0
 
+    #Aplicando a ideia de "relax" para diminuir os valores de distancia
+
+    for _ in range(G.vertice - 1):
+        for u in G:
+            for v in u.get_coneccoes(): # v é um vizinhos de u
+                relax(u, v)
+
+    #Verificando se existe ciclos negativos
+
+    for u in G:
+        for v in u.get_coneccoes(): # v é um vizinhos de u
+            if(verificaCiclosNetagtivos()):
+                print("Este grafo contém ciclos negativos")
+
+    return distancia, pred
+
+def CaminhoMinimoIJ(G, vi, vj):
+
+    distancia, pred = Bellmanford(G, vi)
+
+    inicio = vi
+    fim = vj
     
-    while (len(lista) != len(G.vertice)):
-        vmin = escolherMinimo() #Escrever função escolherMinimo()
-        lista.append(vmin)
-        for i in 
+    print("Caminho de ", vi, " a ", vj)
 
-        for i in lista:
-            if (distancia[i] < min):
-                min = distancia[i];
-                u = i
+    while inicio != fim:
+        pilha = Stack()
+        pilha.push(pred[fim])
+        fim = pred[fim]
+    
+    while not pilha.isEmpty():
+        print(" > ", pilha.pop)
+
+def CustoMinimo(G, v):
+    
+    distancia, pred = Bellmanford(G, v)
+
+    print("Custos em relação a ", v ,": ", distancia)
+
+
+def CaminhoMinimo(G, v):
+    
+    distancia, pred = Bellmanford(G, v)
+
+    for u in range(G.vertice):
+
+        inicio = v
+        fim = u
+
+        print("Caminho de ", v, " a ", u)
+        while inicio != fim:
+            pilha = Stack()
+            pilha.push(pred[fim])
+            fim = pred[fim]
         
-        try:
-            lista.remove(u)
-        except:
-            lista.pop(0)
-
-        for i in #vizinhos de vmin:
-            if((distancia[i]) < (distancia[vmin] + RecuperaPeso(G, vmin, i))):
-                distancia[i] = distancia[i]
-            else:
-                distancia[i] = (distancia[vmin] + RecuperaPeso(G, vmin, i))
-            
-
+        while not pilha.isEmpty():
+            print(" > ", pilha.pop)
 
