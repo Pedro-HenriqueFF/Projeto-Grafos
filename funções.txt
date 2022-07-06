@@ -1,6 +1,6 @@
-1. Implementar a leitura de um grafo dado como entrada através de arquivo de texto
+1. Implementar a leitura de um grafo dado como entrada através de arquivo de texto   OK
 
-2. Representação do Grafo
+2. Representação do Grafo         OK
 
 3. Operações Básicas
 a) NovoGrafo()                    OK
