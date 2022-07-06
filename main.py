@@ -1,5 +1,6 @@
 from asyncio import gather
 from time import sleep
+from unicodedata import name
 import numpy as np
 import sys
 
@@ -429,7 +430,6 @@ def Bellmanford(G, vi):
     infinito = float('inf')
     distancia = []     #Distancia de vi a cada vertice
     pred = []   #predecessor de cada vértice
-    caminho = lista
 
     #Inicializando as distancias
 
@@ -498,7 +498,9 @@ def CaminhoMinimo(G, v):
             print(" > ", pilha.pop)
 
 
-def meu_switch(opcao):
+def meu_switch():
+
+    print("Bem Vindo! Escolha uma opção")
     print("1: NovoGrafo()")
     print("2: Grafo(G)")
     print("3: EVertice(G, v)")
@@ -524,61 +526,126 @@ def meu_switch(opcao):
     print("23: CaminhoMinimo(G, vi, vj)")    
     print("24: CustoMinimo(G, v)")
     print("25: CaminhoMinimo(G, v)")
-    print("26: Conexo(G)")
+    print()
 
-    opcoes = {
-        0: "Você escolheu zero",
-        1: "Você escolheu 1",
-        2: "Você escolheu 2",
-    }
-    return opcoes.get(opcao, "Opção inválida.")
+    opcao = int(input("Informe um número de 1 a 25: "))
+
+    print("----------------------------------------")
+
+    if(opcao==1):
+        valor = input("Informe o nome do grafo: ")
+        g.NovoGrafo(valor)
+
+    if(opcao==2):
+        g.Grafo()
+
+    if(opcao==3):
+        valor = input("Informe o valor do vertice: ")
+        g.EVertice(valor)
+
+    if(opcao==4):
+        valor1 = int(input("Informe o valor vertice vi: "))
+        valor2 = int(input("Informe o valor vertice vj: "))
+        valor3 = int(input("Informe o pedo da aresta vivj: "))
+        
+        g.AddAresta(valor1, valor2, valor3)
+
+    if(opcao==5):
+        valor1 = int(input("Informe o valor vertice vi: "))
+        valor2 = int(input("Informe o valor vertice vj: "))
+        valor3 = int(input("Informe o peso da aresta vivj: "))
+        
+        g.RemoveAresta(valor1, valor2, valor3)
+
+    if(opcao==6):
+        valor1 = int(input("Informe o valor vertice vi: "))
+        valor2 = int(input("Informe o valor vertice vj: "))
+        valor3 = int(input("Informe o peso da aresta vivj: "))
+        
+        g.ExisteAresta(valor1, valor2, valor3)
+
+    if(opcao==7):
+        valor1 = int(input("Informe o valor vertice vi: "))
+        valor2 = int(input("Informe o valor vertice vj: "))
+        valor3 = int(input("Informe o peso da aresta vivj: "))
+        valor4 = int(input("Informe o novo peso da aresta vivj: "))
+        
+        g.MudaPeso(valor1, valor2, valor3, valor4)
+
+    if(opcao==8):
+        g.ImprimeGrafo()
+
+    if(opcao==9):
+        g.RemoveGrafo()
+    
+    if(opcao==10):
+        g.RecuperaPeso()
+
+    if(opcao==11):
+        g.GrafoSimples()
+
+    if(opcao==12):
+        g.EArvore()
+    
+    if(opcao==13):
+        g.EBipartido()
+        
+    if(opcao==14):
+        g.Complemento()
+
+    if(opcao==15):
+        valor1 = int(input("Informe o valor vertice vi: "))
+        valor2 = int(input("Informe o valor vertice vj: "))
+        g.EAdj(valor1, valor2)
+
+    if(opcao==16):
+        valor1 = int(input("Informe o valor vertice v: "))
+        g.Adjacencia(valor1)
+
+    if(opcao==17):
+        valor1 = int(input("Informe o valor vertice v: "))
+        g.Incidencia(valor1)        
+
+    if(opcao==18):
+        g.MatrizAdj()
+
+    if(opcao==19):
+        g.ImprimeMatrizAdj()
+
+    if(opcao==20):
+        g.conexo()
+
+    if(opcao==21):
+        valor1 = int(input("Informe o valor vertice v: "))
+        DSF(g, g.get_vertice(valor1))
+
+    if(opcao==22):
+        valor1 = int(input("Informe o valor vertice v: "))
+        BSF(g, g.get_vertice(valor1)) 
+
+    if(opcao==23):
+        valor1 = int(input("Informe o valor vertice vi: "))
+        valor1 = int(input("Informe o valor vertice vj: "))
+        CaminhoMinimoIJ(g, g.get_vertice(valor1), .get_vertice(valor2)) 
+    
+    if(opcao==24):
+        valor1 = int(input("Informe o valor vertice v: "))
+        CustoMinimo(g, g.get_vertice(valor1)) 
+    
+        
+    if(opcao==25):
+        valor1 = int(input("Informe o valor vertice v: "))
+        CaminhoMinimo(g, g.get_vertice(valor1)) 
+
+    if(opcao>25 or opcao<1):
+        print("Valor Inválido")
 
 
 if __name__ == "__main__":
-    h = EntradaPricipal()
-    g = NovoGrafo('G')
-    for i in range(2, 7):
-        g.AddVertice(Vertice(i))
-    #g.EVertice(6)
-    #g.EVertice(7)
-    g.AddAresta(1, 2, 5)
-    g.AddAresta(1, 6, 2)
-    g.AddAresta(2, 3, 4)
-    g.AddAresta(3, 4, 9)
-    g.AddAresta(4, 5, 7)
-    g.AddAresta(4, 6, 3)
-    g.AddAresta(5, 1, 1)
-    g.AddAresta(6, 5, 8)
-    g.AddAresta(6, 3, 1)
-    #g.RemoveAresta(7, 3, 5)
-    #g.RemoveAresta(6, 3, 5)
-    #g.RemoveAresta(6, 3, 1)
-    #g.ExisteAresta(5, 1, 1)
-    #g.MudaPeso(5, 1, 1, 4)
-    #g.Grafo()
-    #h.Grafo()
-    g.ImprimeGrafo()
-    print('')
-    h.ImprimeGrafo()
-    #g.GrafoSimples()
-    #gc = Complemento(g)
-    #gc.Grafo()
-    #gc.ImprimeGrafo()
-    #g.AddAresta(1, 1, 3)
-    #g.GrafoSimples()
-    #g.EAdj(1, 2)
-    #g.EAdj(1, 3)
-    #g.Adjacencia(3)
-    #g.Adjacencia(4)
-    #g.Incidencia(2)
-    #g.Incidencia(1)
-    #g.MatrizAdj()
-    #g.ImprimeMatrizAdj()
-    #print('')
-    #gc.MatrizAdj()
-    #gc.ImprimeMatrizAdj()
-    #RemoveGrafo(g)
-    #g.Grafo()
-    
-   
 
+    g = None
+    if sys.argv[1] is not None:
+        g = EntradaPricipal()
+
+    while True:
+        meu_switch()
