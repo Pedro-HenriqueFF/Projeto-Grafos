@@ -286,7 +286,7 @@ def RemoveGrafo(g):
 #Função que cria um novo grafo vazio e 
 #transforma ele no complemento do grafo "g"
 def Complemento(g):
-    gc = NovoGrafo()
+    gc = NovoGrafo('{}_'.format(g.nome))
     for i in range(2, (g.vertice)+1):
         gc.AddVertice(Vertice(i))
     return g.Complemento(gc)
