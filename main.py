@@ -317,54 +317,6 @@ def EntradaPricipal():
     nome = sys.argv[1]
     return LerArquivo(nome)
 
-if __name__ == "__main__":
-    h = EntradaPricipal()
-    g = NovoGrafo('G')
-    for i in range(2, 7):
-        g.AddVertice(Vertice(i))
-    #g.EVertice(6)
-    #g.EVertice(7)
-    g.AddAresta(1, 2, 5)
-    g.AddAresta(1, 6, 2)
-    g.AddAresta(2, 3, 4)
-    g.AddAresta(3, 4, 9)
-    g.AddAresta(4, 5, 7)
-    g.AddAresta(4, 6, 3)
-    g.AddAresta(5, 1, 1)
-    g.AddAresta(6, 5, 8)
-    g.AddAresta(6, 3, 1)
-    #g.RemoveAresta(7, 3, 5)
-    #g.RemoveAresta(6, 3, 5)
-    #g.RemoveAresta(6, 3, 1)
-    #g.ExisteAresta(5, 1, 1)
-    #g.MudaPeso(5, 1, 1, 4)
-    #g.Grafo()
-    #h.Grafo()
-    g.ImprimeGrafo()
-    print('')
-    h.ImprimeGrafo()
-    #g.GrafoSimples()
-    #gc = Complemento(g)
-    #gc.Grafo()
-    #gc.ImprimeGrafo()
-    #g.AddAresta(1, 1, 3)
-    #g.GrafoSimples()
-    #g.EAdj(1, 2)
-    #g.EAdj(1, 3)
-    #g.Adjacencia(3)
-    #g.Adjacencia(4)
-    #g.Incidencia(2)
-    #g.Incidencia(1)
-    #g.MatrizAdj()
-    #g.ImprimeMatrizAdj()
-    #print('')
-    #gc.MatrizAdj()
-    #gc.ImprimeMatrizAdj()
-    #RemoveGrafo(g)
-    #g.Grafo()
-    
-   
-
 #Funções de Percursos
 
 #criando uma classe pilha
@@ -544,4 +496,89 @@ def CaminhoMinimo(G, v):
         
         while not pilha.isEmpty():
             print(" > ", pilha.pop)
+
+
+def meu_switch(opcao):
+    print("1: NovoGrafo()")
+    print("2: Grafo(G)")
+    print("3: EVertice(G, v)")
+    print("4: AddAresta(G, vi, vj , ω)")
+    print("5: RemoveAresta(G, vi, vj , ω)")
+    print("6: ExisteAresta(G, vi, vj , ω")
+    print("7: MudaPeso(G, vi, vj , ω, ω′)")
+    print("8: ImprimeGrafo(G)")
+    print("9: RemoveGrafo(G)")
+    print("10: RecuperaPeso(G, vi, vj)")
+    print("11: GrafoSimples(G)")
+    print("12: EArvore(G)")
+    print("13: EBipartido(G)")
+    print("14: Complemento(G)")
+    print("15: EAdj(G, vi, vj)")
+    print("16: Adjacencia(G, v)")
+    print("17: Incidencia(G, v)")    
+    print("18: MatrizAdj(G)")
+    print("19: ImprimeMatrizAdj(G)")
+    print("20: Conexo(G)")
+    print("21: DFS(G, vi)")
+    print("22: BFS(G, vi)")
+    print("23: CaminhoMinimo(G, vi, vj)")    
+    print("24: CustoMinimo(G, v)")
+    print("25: CaminhoMinimo(G, v)")
+    print("26: Conexo(G)")
+
+    opcoes = {
+        0: "Você escolheu zero",
+        1: "Você escolheu 1",
+        2: "Você escolheu 2",
+    }
+    return opcoes.get(opcao, "Opção inválida.")
+
+
+if __name__ == "__main__":
+    h = EntradaPricipal()
+    g = NovoGrafo('G')
+    for i in range(2, 7):
+        g.AddVertice(Vertice(i))
+    #g.EVertice(6)
+    #g.EVertice(7)
+    g.AddAresta(1, 2, 5)
+    g.AddAresta(1, 6, 2)
+    g.AddAresta(2, 3, 4)
+    g.AddAresta(3, 4, 9)
+    g.AddAresta(4, 5, 7)
+    g.AddAresta(4, 6, 3)
+    g.AddAresta(5, 1, 1)
+    g.AddAresta(6, 5, 8)
+    g.AddAresta(6, 3, 1)
+    #g.RemoveAresta(7, 3, 5)
+    #g.RemoveAresta(6, 3, 5)
+    #g.RemoveAresta(6, 3, 1)
+    #g.ExisteAresta(5, 1, 1)
+    #g.MudaPeso(5, 1, 1, 4)
+    #g.Grafo()
+    #h.Grafo()
+    g.ImprimeGrafo()
+    print('')
+    h.ImprimeGrafo()
+    #g.GrafoSimples()
+    #gc = Complemento(g)
+    #gc.Grafo()
+    #gc.ImprimeGrafo()
+    #g.AddAresta(1, 1, 3)
+    #g.GrafoSimples()
+    #g.EAdj(1, 2)
+    #g.EAdj(1, 3)
+    #g.Adjacencia(3)
+    #g.Adjacencia(4)
+    #g.Incidencia(2)
+    #g.Incidencia(1)
+    #g.MatrizAdj()
+    #g.ImprimeMatrizAdj()
+    #print('')
+    #gc.MatrizAdj()
+    #gc.ImprimeMatrizAdj()
+    #RemoveGrafo(g)
+    #g.Grafo()
+    
+   
 
